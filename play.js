@@ -50,7 +50,6 @@ function renderQuestionCard() {
   const q = QUESTIONS[current];
   const accent = ACCENTS[current % ACCENTS.length];
   const slot = document.getElementById("q-card-slot");
-  const qText = q.text.replace("{name}", quizData.name);
 
   let optsHtml = "";
   q.options.forEach((opt, oi) => {
@@ -66,7 +65,7 @@ function renderQuestionCard() {
     <div class="q-card">
       <div class="q-emoji-badge" style="background:${accent}33;">${q.options[0].emoji}</div>
       <p class="q-tag">Evidence ${String(current + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${qText}</p>
+      <p class="q-text">${q.text}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
 
@@ -100,7 +99,6 @@ function renderReview(score) {
   const list = document.getElementById("review-list");
   let html = "";
   QUESTIONS.forEach((q, qi) => {
-    const qText = q.text.replace("{name}", quizData.name);
     let optsHtml = "";
     q.options.forEach((opt, oi) => {
       let cls = "opt-btn review";
@@ -113,7 +111,7 @@ function renderReview(score) {
     });
     html += `<div class="q-card" style="margin-bottom:12px;">
       <p class="q-tag">Evidence ${String(qi + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${qText}</p>
+      <p class="q-text">${q.text}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
   });
