@@ -22,6 +22,8 @@ function renderQuestionCard() {
   const q = QUESTIONS[current];
   const accent = ACCENTS[current % ACCENTS.length];
   const slot = document.getElementById("q-card-slot");
+  const creatorName = document.getElementById("creatorName").value.trim() || "Your";
+  const qText = q.text.replace("{name}", creatorName);
 
   let optsHtml = "";
   q.options.forEach((opt, oi) => {
@@ -37,7 +39,7 @@ function renderQuestionCard() {
     <div class="q-card">
       <div class="q-emoji-badge" style="background:${accent}33;">${q.options[0].emoji}</div>
       <p class="q-tag">Evidence ${String(current + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${q.text}</p>
+      <p class="q-text">${qText}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
 
