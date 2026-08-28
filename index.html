@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CrackMe — Can your friends crack your code?</title>
+<meta name="description" content="Set 15 fun answers about yourself, send the link, and see who really knows you." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="stickers">
+  <span>✨</span><span>🎉</span><span>🔮</span><span>💫</span><span>🎈</span><span>🧩</span>
+</div>
+
+<div class="topbar">
+  <a class="brand" href="index.html"><span class="dot">🔓</span>CrackMe</a>
+  <span class="tag">15 Qs</span>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="hero-emoji">🕵️‍♀️</span>
+    <p class="eyebrow">Set your answers</p>
+    <h1 class="headline">Think your friends<br><em>really</em> know you?</h1>
+    <p class="sub">Answer 15 fun questions honestly, get your link, and send it around. The scoreboard shows who actually gets you.</p>
+  </section>
+
+  <div id="name-stage">
+    <div class="q-card center">
+      <div class="q-emoji-badge" style="background: var(--pink-soft);">👋</div>
+      <p class="q-tag">Before we start</p>
+      <p class="q-text">What's your name?</p>
+      <div class="field" style="margin-bottom: 4px;">
+        <input type="text" id="creatorName" placeholder="Type your name" maxlength="30" />
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-primary btn-block" id="startBtn" disabled>Let's go 🚀</button>
+    </div>
+  </div>
+
+  <div id="quiz-stage" class="hidden">
+    <div class="progress-dots" id="progressDots"></div>
+    <p class="progress-label" id="progressLabel">Question 1 of 15</p>
+
+    <div id="q-card-slot"></div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="prevBtn">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" disabled>Next →</button>
+    </div>
+  </div>
+
+  <div id="result-stage" class="hidden">
+    <div class="result-card">
+      <span class="hero-emoji" style="animation-delay:0s;">🔐</span>
+      <p class="eyebrow" style="margin:14px 0 6px;">Your code is set!</p>
+      <p class="sub" style="margin:0 0 4px;">Send this to friends. Anyone with the link can try to crack you.</p>
+      <div class="link-box">
+        <input type="text" id="shareLink" readonly />
+        <button class="copy-btn" id="copyBtn">COPY</button>
+      </div>
+      <a class="btn btn-ghost btn-block" id="openBoardLink" href="#" target="_blank" rel="noopener">🏆 View live scoreboard</a>
+    </div>
+  </div>
+
+  <div id="error-stage" class="hidden">
+    <div class="error-box" id="errorText"></div>
+  </div>
+
+</div>
+
+<footer>Powered by Ethilio</footer>
+
+<script src="config.js"></script>
+<script src="questions.js"></script>
+<script src="create.js"></script>
+</body>
+</html>

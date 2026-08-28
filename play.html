@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CrackMe — Crack the code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="stickers">
+  <span>🔍</span><span>🧩</span><span>✨</span><span>🎯</span><span>💥</span><span>🔮</span>
+</div>
+
+<div class="topbar">
+  <a class="brand" href="index.html"><span class="dot">🔓</span>CrackMe</a>
+  <span class="tag" id="caseTag">15 Qs</span>
+</div>
+
+<div class="wrap">
+
+  <div id="loading-stage" class="state-msg">
+    <span class="big-emoji">🔎</span>
+    Pulling the file from the vault…
+  </div>
+
+  <div id="expired-stage" class="hidden">
+    <div class="error-box">⏳ This CrackMe has expired. Codes stay active for 14 days — ask your friend to set a new one.</div>
+    <a class="btn btn-primary btn-block mt-24" href="index.html">Create your own CrackMe</a>
+  </div>
+
+  <div id="notfound-stage" class="hidden">
+    <div class="error-box">🤷 This link doesn't lead to a case file. Double-check the URL your friend sent you.</div>
+    <a class="btn btn-primary btn-block mt-24" href="index.html">Create your own CrackMe</a>
+  </div>
+
+  <div id="name-stage" class="hidden">
+    <section class="hero" style="padding-top:12px;">
+      <span class="hero-emoji">🕵️</span>
+      <p class="eyebrow">Attempt in progress</p>
+      <h1 class="headline">Crack <em id="ownerName">their</em> code</h1>
+      <p class="sub">15 questions. Answer honestly — guessing wrong just means you don't know them as well as you thought!</p>
+    </section>
+    <div class="q-card center">
+      <div class="q-emoji-badge" style="background: var(--blue-soft);">😎</div>
+      <p class="q-tag">First things first</p>
+      <p class="q-text">What's your name?</p>
+      <div class="field" style="margin-bottom: 4px;">
+        <input type="text" id="guesserName" placeholder="e.g. Priya" maxlength="30" />
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-primary btn-block" id="startBtn" disabled>Start guessing 🎯</button>
+    </div>
+  </div>
+
+  <div id="quiz-stage" class="hidden">
+    <div class="progress-dots" id="progressDots"></div>
+    <p class="progress-label" id="progressLabel">Question 1 of 15</p>
+
+    <div id="q-card-slot"></div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="prevBtn">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" disabled>Next →</button>
+    </div>
+  </div>
+
+  <div id="results-stage" class="hidden">
+    <section class="hero" style="padding-top:12px;">
+      <p class="eyebrow" id="resultEyebrow">Vault status</p>
+      <h1 class="headline" id="resultHeadline">Opened.</h1>
+      <div class="score-ring-wrap">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle cx="84" cy="84" r="78" fill="none" stroke="#F0E5D3" stroke-width="12"/>
+          <circle id="scoreArc" cx="84" cy="84" r="78" fill="none" stroke="#FF6F91" stroke-width="12"
+            stroke-linecap="round" transform="rotate(-90 84 84)" />
+          <text class="score-num" id="scoreText" x="84" y="92" text-anchor="middle">0/15</text>
+        </svg>
+      </div>
+    </section>
+
+    <h2 style="font-family: var(--font-display); font-size:19px; margin: 8px 0 4px; text-align:center;">Your answers 📋</h2>
+    <div id="review-list"></div>
+
+    <h2 style="font-family: var(--font-display); font-size:19px; margin: 30px 0 4px; text-align:center;">🏆 Scoreboard</h2>
+    <p class="progress-label" id="boardNote"></p>
+    <div class="board" id="board"></div>
+
+    <a class="btn btn-primary btn-block mt-24" href="index.html">Create your own CrackMe</a>
+  </div>
+
+</div>
+
+<footer>Powered by Ethilio</footer>
+
+<script src="config.js"></script>
+<script src="questions.js"></script>
+<script src="play.js"></script>
+</body>
+</html>
