@@ -77,6 +77,8 @@ function renderQuestionCard() {
       updateNav();
     });
   });
+
+  stickerize(slot);
 }
 
 function updateNav() {
@@ -116,6 +118,7 @@ function renderReview(score) {
     </div>`;
   });
   list.innerHTML = html;
+  stickerize(list);
 }
 
 function renderBoard(submissions) {
@@ -192,6 +195,7 @@ async function submitGuess() {
     animateScoreArc(score, QUESTIONS.length);
     renderReview(score);
     renderBoard(updated.submissions);
+    stickerize(document.getElementById("results-stage"));
   } catch (err) {
     btn.disabled = false;
     btn.textContent = "Crack it open 🔓";
@@ -204,6 +208,8 @@ async function submitGuess() {
 /* ---------- init ---------- */
 
 async function init() {
+  stickerize(document.body);
+
   if (!binId) {
     showStage("notfound-stage");
     return;

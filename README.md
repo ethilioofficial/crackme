@@ -53,10 +53,18 @@ so you only need to edit it once.
 
 ## A couple of honest notes
 
-- Because this is a static site, your jsonbin.io key is visible in the
-  page source to anyone who looks. That's fine for a casual game among
-  friends — just don't reuse a key tied to anything sensitive, and you
-  can regenerate it any time from your jsonbin.io dashboard if needed.
+- Because this is a static site, your jsonbin.io key technically has to
+  live somewhere the browser can read it. `config.js` stores it split
+  into three encoded chunks and reassembles it at runtime — this stops
+  casual copy-pasting and automated bots that scan public repos for
+  plainly-formatted keys, but it is not true secrecy. A determined
+  person could still recover it. Don't reuse this key anywhere sensitive,
+  and regenerate it from your jsonbin.io dashboard any time you're
+  unsure. See the comments at the top of `config.js` for how to swap in
+  a new key.
+- If you want an extra layer, make the GitHub repo **Private** in
+  Settings → General — GitHub Pages still works from a private repo on
+  the free plan.
 - The 14-day expiry is enforced by the page (it checks the creation date
   and stops showing the quiz) — the data itself isn't auto-deleted from
   jsonbin.io. Check jsonbin's free-tier limits if you plan to create a

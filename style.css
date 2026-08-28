@@ -53,21 +53,15 @@ body {
 .stickers span {
   position: absolute;
   font-size: 34px;
-  opacity: 0.5;
+  opacity: 0.45;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.08));
-  animation: float 7s ease-in-out infinite;
 }
-.stickers span:nth-child(1) { top: 8%;  left: 6%;  font-size: 30px; animation-delay: 0s; }
-.stickers span:nth-child(2) { top: 18%; right: 8%; font-size: 40px; animation-delay: 1s; rotate: -12deg; }
-.stickers span:nth-child(3) { top: 55%; left: 4%;  font-size: 28px; animation-delay: 2s; rotate: 10deg;}
-.stickers span:nth-child(4) { bottom: 10%; right: 6%; font-size: 36px; animation-delay: 0.6s; rotate: -8deg;}
-.stickers span:nth-child(5) { top: 40%; right: 20%; font-size: 24px; animation-delay: 1.6s; }
-.stickers span:nth-child(6) { bottom: 30%; left: 15%; font-size: 26px; animation-delay: 2.4s; rotate: 14deg;}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-14px) rotate(6deg); }
-}
+.stickers span:nth-child(1) { top: 8%;  left: 6%;  font-size: 30px; }
+.stickers span:nth-child(2) { top: 18%; right: 8%; font-size: 40px; rotate: -12deg; }
+.stickers span:nth-child(3) { top: 55%; left: 4%;  font-size: 28px; rotate: 10deg;}
+.stickers span:nth-child(4) { bottom: 10%; right: 6%; font-size: 36px; rotate: -8deg;}
+.stickers span:nth-child(5) { top: 40%; right: 20%; font-size: 24px; }
+.stickers span:nth-child(6) { bottom: 30%; left: 15%; font-size: 26px; rotate: 14deg;}
 
 .wrap {
   position: relative;
@@ -162,12 +156,17 @@ h1.headline em {
   font-size: 54px;
   display: inline-block;
   margin-bottom: 6px;
-  animation: wiggle 2.6s ease-in-out infinite;
 }
 
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-6deg); }
-  50% { transform: rotate(6deg); }
+/* Twemoji renders emoji as small <img class="emoji"> tags. Sizing them in
+   em units means they automatically scale with whatever font-size the
+   surrounding element has — no separate size rule needed per spot. */
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 0.03em 0 0.07em;
+  vertical-align: -0.14em;
+  display: inline-block;
 }
 
 /* ---------- progress dots ---------- */
@@ -270,8 +269,7 @@ h1.headline em {
   font-family: var(--font-body);
 }
 
-.opt-btn:hover { transform: translateY(-2px); }
-.opt-btn:active { transform: scale(0.96); }
+.opt-btn:active { transform: scale(0.97); }
 
 .opt-btn .opt-emoji {
   font-size: 32px;

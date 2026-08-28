@@ -49,6 +49,8 @@ function renderQuestionCard() {
       updateNav();
     });
   });
+
+  stickerize(slot);
 }
 
 function updateNav() {
@@ -112,6 +114,8 @@ async function finishQuiz() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  stickerize(document.body);
+
   const nameInput = document.getElementById("creatorName");
   const startBtn = document.getElementById("startBtn");
 

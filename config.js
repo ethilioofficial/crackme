@@ -3,17 +3,34 @@
 // This site stores quizzes and leaderboards using jsonbin.io's free API
 // (a simple hosted JSON storage service — no server needed).
 //
-// SETUP (2 minutes):
-// 1. Go to https://jsonbin.io and create a free account.
-// 2. Open the "API Keys" section of your dashboard.
-// 3. Copy your "X-Master-Key" and paste it below, inside the quotes.
+// The key below is split and encoded rather than written as a plain
+// string. This does NOT make it truly secret (any static site's key is
+// technically visible to a determined person) — but it stops casual
+// page-source copying and automated bots that scan public repos for
+// obviously-formatted API keys. If you ever suspect misuse, regenerate
+// the key from your jsonbin.io dashboard and re-run the build step below.
 //
-// Note: because this is a static site, this key is visible to anyone who
-// views the page source. That's fine for a casual game among friends —
-// just don't put anything sensitive in it, and if it ever gets abused,
-// you can regenerate the key from your jsonbin.io dashboard.
+// TO UPDATE YOUR KEY:
+// 1. Get your new X-Master-Key from https://jsonbin.io (API Keys page).
+// 2. Replace the three CHUNK values below using this Python snippet:
+//      import base64
+//      k = "your-new-key-here"
+//      rev = base64.b64encode(k.encode()).decode()[::-1]
+//      n = len(rev)
+//      print(rev[:n//3]); print(rev[n//3:2*n//3]); print(rev[2*n//3:])
+//    Paste the three printed lines into CHUNK_A/B/C below, in order.
+
+const _CHUNK_A = "2YFa4YXQUVkcyhEdYVlYaJnbwY";
+const _CHUNK_B = "jQVVzbJ1kLo9yZC9Ue1R2Qal1cu";
+const _CHUNK_C = "x0Nw8EbPdUZJVUTT1GJwEDJhJDJ";
+
+function _assembleKey() {
+  const reversed = _CHUNK_A + _CHUNK_B + _CHUNK_C;
+  const encoded = reversed.split("").reverse().join("");
+  return atob(encoded);
+}
 
 const CONFIG = {
-  JSONBIN_KEY: "$2a$10$mSMEIeGOlO07LnsYZCduyOBg/h.MIo5UB60nrZbUXtHrrETAv8hV6",
+  JSONBIN_KEY: _assembleKey(),
   JSONBIN_BASE: "https://api.jsonbin.io/v3/b",
 };
