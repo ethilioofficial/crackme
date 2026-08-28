@@ -4,7 +4,7 @@
 // Each option has an emoji "sticker" + text so it never feels like a bare list.
 
 const QUESTIONS = [
-  { text: "My favorite color is...", options: [
+  { text: "{name}'s favorite color is...", options: [
     { text: "Red", emoji: "🔴" }, { text: "Blue", emoji: "🔵" },
     { text: "Black", emoji: "⚫" }, { text: "Green", emoji: "🟢" } ] },
 
