@@ -131,60 +131,19 @@ function renderReview(score) {
 }
 
 function renderBoard(submissions) {
-  document.getElementById("boardNote").textContent =
-    `${submissions.length} attempt${submissions.length === 1 ? "" : "s"} · closes ${EXPIRY_DAYS} days after creation`;
-  renderInteractiveBoard(document.getElementById("board"), submissions);
-}
-
-function renderInteractiveBoard(board, submissions) {
   const sorted = [...submissions].sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
+  const board = document.getElementById("board");
   let html = `<div class="board-row head"><span>#</span><span>Name</span><span>Score</span></div>`;
   sorted.forEach((s, i) => {
-    const hasDetail = Array.isArray(s.guesses);
-    html += `<div class="board-row ${hasDetail ? "clickable" : ""}" data-idx="${i}">
+    html += `<div class="board-row">
       <span class="rank ${i === 0 ? "top" : ""}">${i === 0 ? "🥇" : i + 1}</span>
-      <span>${escapeHtml(s.name)}${hasDetail ? ' <span class="tap-hint">tap to see answers ▾</span>' : ""}</span>
+      <span>${escapeHtml(s.name)}</span>
       <span class="score-pill">${s.score}/${QUESTIONS.length}</span>
-    </div>
-    <div class="board-detail hidden" id="detail-${i}"></div>`;
-  });
-  board.innerHTML = html;
-
-  board.querySelectorAll(".board-row.clickable").forEach((row) => {
-    row.addEventListener("click", () => {
-      const idx = Number(row.dataset.idx);
-      const detailEl = document.getElementById(`detail-${idx}`);
-      const isHidden = detailEl.classList.contains("hidden");
-      board.querySelectorAll(".board-detail").forEach((d) => d.classList.add("hidden"));
-      if (isHidden) {
-        if (!detailEl.dataset.built) {
-          buildPersonDetail(detailEl, sorted[idx]);
-          detailEl.dataset.built = "1";
-        }
-        detailEl.classList.remove("hidden");
-      }
-    });
-  });
-
-  stickerize(board);
-}
-
-function buildPersonDetail(container, submission) {
-  let html = "";
-  QUESTIONS.forEach((q, qi) => {
-    const correctIdx = quizData.answers[qi];
-    const theirIdx = submission.guesses[qi];
-    const isCorrect = theirIdx === correctIdx;
-    const theirOpt = q.options[theirIdx];
-    const correctOpt = q.options[correctIdx];
-    html += `<div class="detail-row ${isCorrect ? "ok" : "bad"}">
-      <span class="detail-q">Q${qi + 1}</span>
-      <span class="detail-ans">${isCorrect ? "✅" : "❌"} ${theirOpt.emoji} ${theirOpt.text}</span>
-      ${!isCorrect ? `<span class="detail-correct">✅ ${correctOpt.emoji} ${correctOpt.text}</span>` : ""}
     </div>`;
   });
-  container.innerHTML = html;
-  stickerize(container);
+  board.innerHTML = html;
+  document.getElementById("boardNote").textContent =
+    `${submissions.length} attempt${submissions.length === 1 ? "" : "s"} · closes ${EXPIRY_DAYS} days after creation`;
 }
 
 function escapeHtml(str) {
@@ -228,7 +187,7 @@ async function submitGuess() {
     // Re-fetch latest before writing, to reduce (not eliminate) race conditions
     // between friends submitting at the same time.
     const fresh = await fetchQuiz();
-    const submission = { name, score, timestamp: Date.now(), guesses: [...guesses] };
+    const submission = { name, score, timestamp: Date.now() };
     const updated = { ...fresh, submissions: [...fresh.submissions, submission] };
 
     await fetch(`${CONFIG.JSONBIN_BASE}/${binId}`, {
@@ -325,7 +284,16 @@ function renderBoardOnly() {
   if (submissions.length === 0) {
     board.innerHTML = `<div class="board-row"><span></span><span>No attempts yet — share your link!</span><span></span></div>`;
   } else {
-    renderInteractiveBoard(board, submissions);
+    const sorted = [...submissions].sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
+    let html = `<div class="board-row head"><span>#</span><span>Name</span><span>Score</span></div>`;
+    sorted.forEach((s, i) => {
+      html += `<div class="board-row">
+        <span class="rank ${i === 0 ? "top" : ""}">${i === 0 ? "🥇" : i + 1}</span>
+        <span>${escapeHtml(s.name)}</span>
+        <span class="score-pill">${s.score}/${QUESTIONS.length}</span>
+      </div>`;
+    });
+    board.innerHTML = html;
   }
   document.getElementById("boardOnlyNote").textContent =
     `${submissions.length} attempt${submissions.length === 1 ? "" : "s"} · closes ${EXPIRY_DAYS} days after creation`;
