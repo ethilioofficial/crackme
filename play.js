@@ -12,7 +12,7 @@ let quizData = null;
 let current = 0;
 
 function showStage(id) {
-  ["loading-stage", "expired-stage", "notfound-stage", "name-stage", "quiz-stage", "results-stage"].forEach((s) => {
+  ["loading-stage", "expired-stage", "notfound-stage", "board-only-stage", "name-stage", "quiz-stage", "results-stage"].forEach((s) => {
     document.getElementById(s).classList.toggle("hidden", s !== id);
   });
 }
@@ -229,6 +229,13 @@ async function init() {
       showStage("expired-stage");
       return;
     }
+
+    const boardOnly = params.get("board") === "1";
+    if (boardOnly) {
+      renderBoardOnly();
+      return;
+    }
+
     document.getElementById("caseTag").textContent = `Case ${binId.slice(-4).toUpperCase()}`;
     document.getElementById("ownerName").textContent = `${quizData.name}'s`;
     showStage("name-stage");
@@ -255,6 +262,38 @@ async function init() {
     showStage("notfound-stage");
     console.error(err);
   }
+}
+
+function renderBoardOnly() {
+  document.getElementById("caseTag").textContent = `Case ${binId.slice(-4).toUpperCase()}`;
+  document.getElementById("boardOwnerName").textContent = `${quizData.name}'s`;
+  showStage("board-only-stage");
+
+  const board = document.getElementById("boardOnly");
+  const submissions = quizData.submissions || [];
+  if (submissions.length === 0) {
+    board.innerHTML = `<div class="board-row"><span></span><span>No attempts yet — share your link!</span><span></span></div>`;
+  } else {
+    const sorted = [...submissions].sort((a, b) => b.score - a.score || a.timestamp - b.timestamp);
+    let html = `<div class="board-row head"><span>#</span><span>Name</span><span>Score</span></div>`;
+    sorted.forEach((s, i) => {
+      html += `<div class="board-row">
+        <span class="rank ${i === 0 ? "top" : ""}">${i === 0 ? "🥇" : i + 1}</span>
+        <span>${escapeHtml(s.name)}</span>
+        <span class="score-pill">${s.score}/${QUESTIONS.length}</span>
+      </div>`;
+    });
+    board.innerHTML = html;
+  }
+  document.getElementById("boardOnlyNote").textContent =
+    `${submissions.length} attempt${submissions.length === 1 ? "" : "s"} · closes ${EXPIRY_DAYS} days after creation`;
+
+  document.getElementById("boardOnlyRefresh").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.reload();
+  });
+
+  stickerize(document.getElementById("board-only-stage"));
 }
 
 document.addEventListener("DOMContentLoaded", init);

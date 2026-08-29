@@ -97,11 +97,12 @@ async function finishQuiz() {
     const binId = data.metadata.id;
 
     const shareUrl = `${window.location.origin}${window.location.pathname.replace("index.html", "")}play.html?id=${binId}`;
+    const boardUrl = `${shareUrl}&board=1`;
 
     document.getElementById("quiz-stage").classList.add("hidden");
     document.getElementById("result-stage").classList.remove("hidden");
     document.getElementById("shareLink").value = shareUrl;
-    document.getElementById("openBoardLink").href = shareUrl;
+    document.getElementById("openBoardLink").href = boardUrl;
   } catch (err) {
     document.getElementById("error-stage").classList.remove("hidden");
     document.getElementById("errorText").textContent =
