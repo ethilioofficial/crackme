@@ -4,6 +4,7 @@
 
 const answers = new Array(QUESTIONS.length).fill(null);
 let current = 0;
+let creatorNameValue = "";
 
 function renderDots() {
   const el = document.getElementById("progressDots");
@@ -37,7 +38,7 @@ function renderQuestionCard() {
     <div class="q-card">
       <div class="q-emoji-badge" style="background:${accent}33;">${q.options[0].emoji}</div>
       <p class="q-tag">Evidence ${String(current + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${q.text}</p>
+      <p class="q-text">${personalize(q.text, creatorNameValue)}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
 
@@ -125,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   startBtn.addEventListener("click", () => {
+    creatorNameValue = nameInput.value.trim();
     document.getElementById("name-stage").classList.add("hidden");
     document.getElementById("quiz-stage").classList.remove("hidden");
     goTo(0);

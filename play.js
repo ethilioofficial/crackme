@@ -71,7 +71,7 @@ function renderQuestionCard() {
     <div class="q-card">
       <div class="q-emoji-badge" style="background:${accent}33;">${q.options[0].emoji}</div>
       <p class="q-tag">Evidence ${String(current + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${q.text}</p>
+      <p class="q-text">${personalize(q.text, quizData.name)}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
 
@@ -122,7 +122,7 @@ function renderReview(score) {
     });
     html += `<div class="q-card" style="margin-bottom:12px;">
       <p class="q-tag">Evidence ${String(qi + 1).padStart(2, "0")} / ${String(QUESTIONS.length).padStart(2, "0")}</p>
-      <p class="q-text">${q.text}</p>
+      <p class="q-text">${personalize(q.text, quizData.name)}</p>
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
   });
