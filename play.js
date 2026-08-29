@@ -230,15 +230,9 @@ async function init() {
       return;
     }
 
-    const boardOnly = params.get("board") === "1";
-    if (boardOnly) {
-      renderBoardOnly();
-      return;
-    }
-
     document.getElementById("caseTag").textContent = `Case ${binId.slice(-4).toUpperCase()}`;
     document.getElementById("ownerName").textContent = `${quizData.name}'s`;
-    showStage("name-stage");
+    document.getElementById("boardOwnerName").textContent = `${quizData.name}'s`;
 
     const nameInput = document.getElementById("guesserName");
     const startBtn = document.getElementById("startBtn");
@@ -250,6 +244,17 @@ async function init() {
       goTo(0);
     });
 
+    document.getElementById("viewBoardBtn").addEventListener("click", () => renderBoardOnly());
+    document.getElementById("playFromBoardBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      showStage("name-stage");
+    });
+    document.getElementById("boardOnlyRefresh").addEventListener("click", async (e) => {
+      e.preventDefault();
+      quizData = await fetchQuiz();
+      renderBoardOnly();
+    });
+
     document.getElementById("prevBtn").addEventListener("click", () => goTo(current - 1));
     document.getElementById("nextBtn").addEventListener("click", () => {
       if (current === QUESTIONS.length - 1) {
@@ -258,6 +263,13 @@ async function init() {
         goTo(current + 1);
       }
     });
+
+    const boardOnly = params.get("board") === "1";
+    if (boardOnly) {
+      renderBoardOnly();
+    } else {
+      showStage("name-stage");
+    }
   } catch (err) {
     showStage("notfound-stage");
     console.error(err);
@@ -265,8 +277,6 @@ async function init() {
 }
 
 function renderBoardOnly() {
-  document.getElementById("caseTag").textContent = `Case ${binId.slice(-4).toUpperCase()}`;
-  document.getElementById("boardOwnerName").textContent = `${quizData.name}'s`;
   showStage("board-only-stage");
 
   const board = document.getElementById("boardOnly");
@@ -287,11 +297,6 @@ function renderBoardOnly() {
   }
   document.getElementById("boardOnlyNote").textContent =
     `${submissions.length} attempt${submissions.length === 1 ? "" : "s"} · closes ${EXPIRY_DAYS} days after creation`;
-
-  document.getElementById("boardOnlyRefresh").addEventListener("click", (e) => {
-    e.preventDefault();
-    window.location.reload();
-  });
 
   stickerize(document.getElementById("board-only-stage"));
 }
