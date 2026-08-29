@@ -308,10 +308,18 @@ img.emoji {
 .opt-btn.correct {
   border-color: var(--green);
   background: var(--green-soft);
+  animation: revealPop 0.3s ease;
 }
 .opt-btn.wrong {
   border-color: var(--pink);
   background: var(--pink-soft);
+  animation: revealPop 0.3s ease;
+}
+
+@keyframes revealPop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.07); }
+  100% { transform: scale(1); }
 }
 .opt-btn.correct::before { content: "✅ "; }
 .opt-btn.review { cursor: default; }

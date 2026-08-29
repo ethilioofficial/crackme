@@ -50,12 +50,18 @@ function renderQuestionCard() {
   const q = QUESTIONS[current];
   const accent = ACCENTS[current % ACCENTS.length];
   const slot = document.getElementById("q-card-slot");
+  const answered = guesses[current] !== null;
+  const correctIdx = quizData.answers[current];
 
   let optsHtml = "";
   q.options.forEach((opt, oi) => {
-    const selected = guesses[current] === oi;
-    optsHtml += `<button type="button" class="opt-btn ${selected ? "selected" : ""}" data-oi="${oi}"
-      style="${selected ? `--accent:${accent}; --accent-soft:${accent}22;` : ""}">
+    let cls = "opt-btn";
+    if (answered) {
+      cls += " review";
+      if (oi === correctIdx) cls += " correct";
+      else if (oi === guesses[current]) cls += " wrong";
+    }
+    optsHtml += `<button type="button" class="${cls}" data-oi="${oi}" ${answered ? "disabled" : ""}>
       <span class="opt-emoji">${opt.emoji}</span>
       <span class="opt-text">${opt.text}</span>
     </button>`;
@@ -69,14 +75,17 @@ function renderQuestionCard() {
       <div class="opt-grid">${optsHtml}</div>
     </div>`;
 
-  slot.querySelectorAll(".opt-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      guesses[current] = Number(btn.dataset.oi);
-      renderQuestionCard();
-      renderDots();
-      updateNav();
+  if (!answered) {
+    slot.querySelectorAll(".opt-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (guesses[current] !== null) return;
+        guesses[current] = Number(btn.dataset.oi);
+        renderQuestionCard();
+        renderDots();
+        updateNav();
+      });
     });
-  });
+  }
 
   stickerize(slot);
 }
